@@ -131,28 +131,56 @@ function ProductsContent() {
     loadAllProducts();
   }, []);
 
-  // Handle URL parameters
+  // Handle URL parameters on mount and when search params change
   useEffect(() => {
     const urlCategory = searchParams.get('category');
     const urlSearch = searchParams.get('search');
     
-    setCurrentCategory(urlCategory);
+    // Only update state if it's different from current state
+    if (urlCategory !== currentCategory) {
+      setCurrentCategory(urlCategory);
+    }
     
-    // Update filters based on URL parameters
-    if (urlCategory) {
-      updateFilters({ category: urlCategory });
+    // Update filters based on URL parameters, but avoid infinite loops
+    const newFilters: Partial<SearchFilters> = {};
+    let shouldUpdate = false;
+    
+    if (urlCategory && urlCategory !== filters.category) {
+      newFilters.category = urlCategory;
+      shouldUpdate = true;
+    } else if (!urlCategory && filters.category) {
+      newFilters.category = '';
+      shouldUpdate = true;
     }
-    if (urlSearch) {
-      updateFilters({ query: urlSearch });
+    
+    if (urlSearch && urlSearch !== filters.query) {
+      newFilters.query = urlSearch;
+      shouldUpdate = true;
+    } else if (!urlSearch && filters.query) {
+      newFilters.query = '';
+      shouldUpdate = true;
     }
-  }, [searchParams, updateFilters]);
+    
+    if (shouldUpdate) {
+      updateFilters(newFilters);
+    }
+  }, [searchParams]); // Only depend on searchParams to avoid infinite loops
 
   // Handle category change
   const handleCategoryChange = (category: string | null) => {
+    // Prevent unnecessary updates if category is the same
+    if (category === currentCategory) return;
+    
     setCurrentCategory(category);
     setCurrentPage(1);
-    updateFilters({ category: category || '' });
     
+    // Only update filters if the category is actually different
+    const newCategory = category || '';
+    if (newCategory !== filters.category) {
+      updateFilters({ category: newCategory });
+    }
+    
+    // Update URL
     const params = new URLSearchParams(searchParams);
     if (category) {
       params.set('category', category);
@@ -164,6 +192,9 @@ function ProductsContent() {
 
   // Handle search
   const handleSearch = (query: string) => {
+    // Prevent unnecessary updates if query is the same
+    if (query === filters.query) return;
+    
     setCurrentPage(1);
     updateFilters({ query });
     

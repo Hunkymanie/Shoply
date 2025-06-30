@@ -1,0 +1,10 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Shopping bag outline -->
+  <path d="M3 5L2 14H14L13 5H3Z" stroke="#2563eb" stroke-width="1" stroke-linejoin="round" fill="#2563eb" fill-opacity="0.1"/>
+  
+  <!-- Shopping bag handles -->
+  <path d="M5 5V4C5 2.89543 5.89543 2 7 2H9C10.1046 2 11 2.89543 11 4V5" stroke="#2563eb" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  
+  <!-- S letter in the center -->
+  <path d="M6 8C6 7.44772 6.44772 7 7 7H8C8.55228 7 9 7.44772 9 8C9 8.55228 8.55228 9 8 9H7C6.44772 9 6 9.44772 6 10C6 10.5523 6.44772 11 7 11H8C8.55228 11 9 10.5523 9 10" stroke="#2563eb" stroke-width="0.75" stroke-linecap="round" fill="none"/>
+</svg>

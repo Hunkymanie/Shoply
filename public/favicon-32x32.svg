@@ -1,0 +1,18 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Shopping bag outline with gradient -->
+  <defs>
+    <linearGradient id="bagGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Shopping bag outline -->
+  <path d="M6 10L4 28H28L26 10H6Z" stroke="url(#bagGradient)" stroke-width="2" stroke-linejoin="round" fill="url(#bagGradient)" fill-opacity="0.1"/>
+  
+  <!-- Shopping bag handles -->
+  <path d="M10 10V8C10 5.79086 11.7909 4 14 4H18C20.2091 4 22 5.79086 22 8V10" stroke="url(#bagGradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  
+  <!-- S letter in the center -->
+  <path d="M12 16C12 14.8954 12.8954 14 14 14H16C17.1046 14 18 14.8954 18 16C18 17.1046 17.1046 18 16 18H14C12.8954 18 12 18.8954 12 20C12 21.1046 12.8954 22 14 22H16C17.1046 22 18 21.1046 18 20" stroke="url(#bagGradient)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+</svg>

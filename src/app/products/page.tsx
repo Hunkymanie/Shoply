@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { fetchProducts, fetchProductsByCategory, searchProducts, getFashionCategories, type Product as ApiProduct } from '@/lib/api';
+import { fetchProducts, fetchProductsByCategory, searchProducts, getFashionCategories, categoryMapping, type Product as ApiProduct } from '@/lib/api';
 import { products as staticProducts, getProductsByCategory } from '@/lib/products';
 import { type Product } from '@/types';
 import { useCurrency } from '@/contexts/CurrencyContext';
@@ -28,7 +28,7 @@ const convertApiProductToProduct = (apiProduct: ApiProduct): Product => ({
     Math.round(apiProduct.price * (1 - apiProduct.discountPercentage / 100) * 100) / 100 : 
     undefined,
   image: apiProduct.thumbnail,
-  category: apiProduct.category,
+  category: categoryMapping[apiProduct.category] || apiProduct.category, // Map API category to display category
   inStock: apiProduct.stock > 0,
   brand: apiProduct.brand,
   rating: apiProduct.rating,

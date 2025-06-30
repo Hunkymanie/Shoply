@@ -11,8 +11,6 @@ import { Badge } from '@/components/ui/badge';
 import { 
   User, 
   Mail, 
-  Phone, 
-  MapPin, 
   Package, 
   Heart, 
   Settings, 

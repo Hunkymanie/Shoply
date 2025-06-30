@@ -1,13 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { CheckCircle, XCircle, Mail, Key, Users, Shield, UserCheck } from 'lucide-react';
+import { Mail, Key, Users, Shield, UserCheck } from 'lucide-react';
 
 export default function AuthTestPage() {
-  const [testResults, setTestResults] = useState<{ feature: string; status: 'pass' | 'fail' | 'pending'; description: string }[]>([]);
 
   const authFeatures = [
     {
@@ -146,10 +146,10 @@ export default function AuthTestPage() {
 
           <div className="mt-8 text-center">
             <Button asChild className="bg-purple-600 hover:bg-purple-700 mr-4">
-              <a href="/auth">Start Testing Authentication</a>
+              <Link href="/auth">Start Testing Authentication</Link>
             </Button>
             <Button variant="outline" asChild>
-              <a href="/">Back to Home</a>
+              <Link href="/">Back to Home</Link>
             </Button>
           </div>
         </div>

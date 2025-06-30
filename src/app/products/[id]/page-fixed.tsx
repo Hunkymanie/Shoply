@@ -265,26 +265,12 @@ export default function ProductPage({ params }: ProductPageProps) {
             <div className="grid grid-cols-2 gap-3 md:gap-4 text-xs md:text-sm">
               <div className="space-y-1">
                 <span className="text-muted-foreground">SKU:</span>
-                <span className="font-medium">{product.sku || product.id}</span>
+                <span className="font-medium">{product.id}</span>
               </div>
               <div className="space-y-1">
                 <span className="text-muted-foreground">Stock:</span>
-                <span className="font-medium">{product.stock} available</span>
+                <span className="font-medium">{product.stock > 0 ? `${product.stock} available` : 'Out of Stock'}</span>
               </div>
-              {product.weight && (
-                <div className="space-y-1">
-                  <span className="text-muted-foreground">Weight:</span>
-                  <span className="font-medium">{product.weight}g</span>
-                </div>
-              )}
-              {product.dimensions && (
-                <div className="space-y-1">
-                  <span className="text-muted-foreground">Dimensions:</span>
-                  <span className="font-medium">
-                    {product.dimensions.width}×{product.dimensions.height}×{product.dimensions.depth}cm
-                  </span>
-                </div>
-              )}
             </div>
 
             {/* Quantity & Add to Cart */}

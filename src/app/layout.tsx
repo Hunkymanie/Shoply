@@ -26,12 +26,9 @@ export const metadata: Metadata = {
     telephone: false,
   },
   icons: {
-    icon: [
-      { url: '/icon.svg', type: 'image/svg+xml' },
-      { url: '/favicon.svg', type: 'image/svg+xml' }
-    ],
-    shortcut: '/favicon.svg',
-    apple: '/favicon.svg',
+    icon: '/shoply-favicon.png',
+    shortcut: '/shoply-favicon.png',
+    apple: '/shoply-favicon.png',
   },
   metadataBase: new URL("https://shoply.com"),
   openGraph: {

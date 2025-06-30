@@ -108,6 +108,7 @@ export default function ProductPage({ params }: ProductPageProps) {
     const cartItem = {
       id: product.id.toString(),
       name: product.title,
+      description: product.description,
       price: product.discountPercentage ? getDiscountedPrice(product.price, product.discountPercentage) : product.price,
       image: product.thumbnail,
       category: product.category,
@@ -262,7 +263,7 @@ export default function ProductPage({ params }: ProductPageProps) {
             <div className="grid grid-cols-2 gap-3 md:gap-4 text-xs md:text-sm">
               <div className="space-y-1">
                 <span className="text-muted-foreground">SKU:</span>
-                <span className="font-medium">{product.sku || 'N/A'}</span>
+                <span className="font-medium">{product.id}</span>
               </div>
               <div className="space-y-1">
                 <span className="text-muted-foreground">Stock:</span>

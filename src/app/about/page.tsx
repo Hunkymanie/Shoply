@@ -85,7 +85,7 @@ export default function AboutPage() {
                   Fashion Forward Thinking
                 </h3>
                 <p className="text-sm md:text-base text-gray-600 mb-4 md:mb-6 leading-relaxed">
-                  We believe fashion is more than just clothing—it's a form of self-expression, 
+                  We believe fashion is more than just clothing—it&apos;s a form of self-expression, 
                   confidence, and creativity. Our team of fashion experts travels the world to 
                   discover emerging designers, sustainable brands, and timeless pieces that 
                   complement your lifestyle.

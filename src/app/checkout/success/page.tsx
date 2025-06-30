@@ -155,7 +155,7 @@ export default function CheckoutSuccessPage() {
 
             {/* Quick Info */}
             <div className="bg-primary/5 rounded-lg p-4 mb-4 border border-primary/20">
-              <h3 className="font-semibold text-foreground mb-2 text-sm">What's Next?</h3>
+              <h3 className="font-semibold text-foreground mb-2 text-sm">What&apos;s Next?</h3>
               <div className="space-y-1 text-sm text-muted-foreground">
                 <p>• Confirmation email sent to your inbox</p>
                 <p>• Tracking info will be sent when shipped</p>

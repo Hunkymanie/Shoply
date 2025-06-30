@@ -29,7 +29,7 @@ export default function AuthDebugPage() {
         addDebugInfo('Registration successful, checking localStorage...');
         const users = JSON.parse(localStorage.getItem('shoply_users') || '[]');
         addDebugInfo(`Users in localStorage: ${users.length}`);
-        const user = users.find((u: any) => u.email === email);
+        const user = users.find((u: { email: string }) => u.email === email);
         addDebugInfo(`Created user: ${JSON.stringify(user)}`);
       }
     } catch (error) {
@@ -51,7 +51,7 @@ export default function AuthDebugPage() {
         if (result.success) {
           addDebugInfo('Email verified successfully!');
           const users = JSON.parse(localStorage.getItem('shoply_users') || '[]');
-          const user = users.find((u: any) => u.email === email);
+          const user = users.find((u: { email: string }) => u.email === email);
           addDebugInfo(`User after verification: ${JSON.stringify(user)}`);
         }
       } else {

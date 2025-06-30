@@ -11,7 +11,7 @@ import { useCurrency } from '@/contexts/CurrencyContext';
 
 export default function CartPage() {
   const { items, updateQuantity, removeItem, clearCart, total, itemCount } = useCart();
-  const { formatPrice, convertPrice } = useCurrency();
+  const { formatPrice } = useCurrency();
 
   if (items.length === 0) {
     return (

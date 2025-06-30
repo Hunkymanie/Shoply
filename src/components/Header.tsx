@@ -185,15 +185,22 @@ export default function Header() {
                   {/* User Section */}
                   {isAuthenticated && user && (
                     <div className="border-b border-border pb-4 mb-4">
-                      <div className="flex items-center space-x-3">
+                      <Link 
+                        href="/account"
+                        className="flex items-center space-x-3 hover:bg-accent/50 rounded-lg p-2 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                        onClick={() => setIsOpen(false)}
+                      >
                         <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
                           <User className="h-5 w-5 text-primary-foreground" />
                         </div>
-                        <div>
+                        <div className="flex-1">
                           <p className="font-medium text-foreground">{user.name}</p>
                           <p className="text-sm text-muted-foreground">{user.email}</p>
                         </div>
-                      </div>
+                        <div className="text-xs text-muted-foreground">
+                          View Profile →
+                        </div>
+                      </Link>
                     </div>
                   )}
                   
@@ -235,16 +242,18 @@ export default function Header() {
                       </div>
                       Wishlist
                     </Link>
-                    <Link 
-                      href={isAuthenticated ? "/account" : "/auth"} 
-                      className="flex items-center space-x-3 text-lg font-medium hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md px-3 py-2"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                        <User className="h-4 w-4 text-primary" />
-                      </div>
-                      {isAuthenticated ? 'Account' : 'Sign In'}
-                    </Link>
+                    {!isAuthenticated && (
+                      <Link 
+                        href="/auth" 
+                        className="flex items-center space-x-3 text-lg font-medium hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md px-3 py-2"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                          <User className="h-4 w-4 text-primary" />
+                        </div>
+                        Sign In
+                      </Link>
+                    )}
                     <Link 
                       href="/cart" 
                       className="flex items-center space-x-3 text-lg font-medium hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md px-3 py-2"

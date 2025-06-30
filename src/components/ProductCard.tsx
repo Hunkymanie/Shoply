@@ -44,8 +44,8 @@ export default function ProductCard({ product }: ProductCardProps) {
   const originalPrice = product.salePrice ? product.price : null;
 
   return (
-    <Card className="group overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1 bg-card border border-border">
-      <Link href={`/products/${product.id}`} onClick={handleProductClick}>
+    <Card className="group overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1 bg-card border border-border h-full flex flex-col">
+      <Link href={`/products/${product.id}`} onClick={handleProductClick} className="block">
         <div className="relative aspect-square overflow-hidden bg-muted">
           {/* Skeleton loader */}
           {!imageLoaded && (
@@ -117,8 +117,8 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
       </Link>
       
-      <CardContent className="p-2 md:p-3">
-        <div className="space-y-2">
+      <CardContent className="p-0 flex-1 flex flex-col">
+        <div className="p-3 space-y-2 flex-1 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-1">
               <Badge variant="outline" className="text-xs text-primary border-primary/20 px-1.5 py-0.5">

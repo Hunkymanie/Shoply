@@ -1,70 +1,89 @@
 'use client';
 
-import { useState } from 'react';
-import { Heart, ShoppingCart, Trash2, Share2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Heart, ShoppingCart, Trash2, Share2, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCurrency } from '@/contexts/CurrencyContext';
-
-// Mock wishlist data
-const mockWishlistItems = [
-  {
-    id: 1,
-    name: "Classic White Button-Down Shirt",
-    price: 89.99,
-    originalPrice: 119.99,
-    image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=300&h=400&fit=crop",
-    inStock: true,
-    sizes: ["XS", "S", "M", "L", "XL"],
-    colors: ["White", "Light Blue", "Black"]
-  },
-  {
-    id: 2,
-    name: "Luxury Cashmere Scarf",
-    price: 149.99,
-    originalPrice: null,
-    image: "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=300&h=400&fit=crop",
-    inStock: true,
-    sizes: ["One Size"],
-    colors: ["Beige", "Grey", "Navy"]
-  },
-  {
-    id: 3,
-    name: "Premium Leather Handbag",
-    price: 299.99,
-    originalPrice: 399.99,
-    image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=300&h=400&fit=crop",
-    inStock: false,
-    sizes: ["One Size"],
-    colors: ["Black", "Brown", "Tan"]
-  },
-  {
-    id: 4,
-    name: "Designer Sunglasses",
-    price: 199.99,
-    originalPrice: null,
-    image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=300&h=400&fit=crop",
-    inStock: true,
-    sizes: ["One Size"],
-    colors: ["Black", "Tortoise", "Gold"]
-  }
-];
+import { useAuth } from '@/contexts/AuthContext';
+import { useCart } from '@/contexts/CartContext';
+import { products } from '@/lib/products';
+import { Product } from '@/types';
 
 export default function WishlistPage() {
-  const [wishlistItems, setWishlistItems] = useState(mockWishlistItems);
+  const { user, isAuthenticated } = useAuth();
+  const { addItem } = useCart();
   const { formatPrice } = useCurrency();
+  
+  // Mock wishlist items - in a real app, this would come from user's wishlist data
+  // For now, we'll simulate having some items for authenticated users
+  const [wishlistItems, setWishlistItems] = useState<Product[]>([]);
 
-  const removeFromWishlist = (id: number) => {
+  useEffect(() => {
+    // Only show wishlist items if user is authenticated
+    // For demo purposes, we'll show a few items from our product catalog
+    if (isAuthenticated && user) {
+      // Simulate user having some items in wishlist
+      const mockWishlistProductIds = ['1', '2', '9']; // Some product IDs from our catalog
+      const userWishlistItems = products.filter(product => 
+        mockWishlistProductIds.includes(product.id)
+      );
+      setWishlistItems(userWishlistItems);
+    } else {
+      setWishlistItems([]);
+    }
+  }, [isAuthenticated, user]);
+
+  const removeFromWishlist = (id: string) => {
     setWishlistItems(items => items.filter(item => item.id !== id));
   };
 
-  const addToCart = (id: number) => {
-    // This would integrate with your cart context
-    console.log(`Adding item ${id} to cart`);
+  const addToCart = (product: Product) => {
+    addItem(product);
+    // Optionally show a success message
+    console.log(`Added ${product.name} to cart`);
   };
+
+  // Show login prompt if user is not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-background">
+        <div className="container mx-auto px-4 py-6 md:py-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="mb-6 md:mb-8">
+              <h1 className="text-2xl md:text-3xl font-bold text-foreground">My Wishlist</h1>
+              <p className="text-sm md:text-base text-muted-foreground mt-2">Save your favorite items for later</p>
+            </div>
+
+            <div className="text-center py-12 md:py-16">
+              <div className="w-20 h-20 md:w-24 md:h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+                <Lock className="w-10 h-10 md:w-12 md:h-12 text-primary" />
+              </div>
+              <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-3 md:mb-4">Sign in to view your wishlist</h2>
+              <p className="text-sm md:text-base text-muted-foreground mb-6 md:mb-8 max-w-md mx-auto">
+                Create an account or sign in to save your favorite items and access them from any device
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Link href="/auth">
+                  <Button size="lg" className="bg-primary hover:bg-primary/90 text-sm md:text-base">
+                    Sign In
+                  </Button>
+                </Link>
+                <Link href="/products">
+                  <Button variant="outline" size="lg" className="text-sm md:text-base">
+                    Browse Products
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (wishlistItems.length === 0) {
     return (
@@ -133,7 +152,7 @@ export default function WishlistPage() {
                       height={400}
                       className="w-full h-48 md:h-64 object-cover rounded-t-lg"
                     />
-                    {item.originalPrice && (
+                    {item.salePrice && (
                       <Badge className="absolute top-2 md:top-3 left-2 md:left-3 bg-red-500 text-xs">
                         Sale
                       </Badge>
@@ -158,11 +177,11 @@ export default function WishlistPage() {
                     
                     <div className="flex items-center space-x-2 mb-2 md:mb-3">
                       <span className="text-base md:text-lg font-semibold text-foreground">
-                        {formatPrice(item.price)}
+                        {formatPrice(item.salePrice || item.price)}
                       </span>
-                      {item.originalPrice && (
+                      {item.salePrice && (
                         <span className="text-xs md:text-sm text-muted-foreground line-through">
-                          {formatPrice(item.originalPrice)}
+                          {formatPrice(item.price)}
                         </span>
                       )}
                     </div>
@@ -170,28 +189,34 @@ export default function WishlistPage() {
                     <div className="mb-2 md:mb-3">
                       <p className="text-xs text-muted-foreground mb-1">Available Colors:</p>
                       <div className="flex space-x-1">
-                        {item.colors.slice(0, 3).map((color, index) => (
+                        {item.colors?.slice(0, 3).map((color, index) => (
                           <div
                             key={index}
                             className="w-3 h-3 md:w-4 md:h-4 rounded-full border border-border"
                             style={{ 
-                              backgroundColor: color.toLowerCase() === 'white' ? '#ffffff' : 
-                                             color.toLowerCase() === 'black' ? '#000000' :
-                                             color.toLowerCase() === 'grey' || color.toLowerCase() === 'gray' ? '#6b7280' :
-                                             color.toLowerCase() === 'navy' ? '#1e3a8a' :
-                                             color.toLowerCase() === 'beige' ? '#f5f5dc' :
-                                             color.toLowerCase() === 'brown' ? '#8b4513' :
-                                             color.toLowerCase() === 'tan' ? '#d2b48c' :
-                                             color.toLowerCase() === 'gold' ? '#ffd700' :
-                                             color.toLowerCase() === 'tortoise' ? '#8b4513' :
-                                             color.toLowerCase() === 'light blue' ? '#87ceeb' :
-                                             '#9ca3af'
+                              backgroundColor: 
+                                color.toLowerCase().includes('white') ? '#ffffff' : 
+                                color.toLowerCase().includes('black') ? '#000000' :
+                                color.toLowerCase().includes('grey') || color.toLowerCase().includes('gray') ? '#6b7280' :
+                                color.toLowerCase().includes('navy') ? '#1e3a8a' :
+                                color.toLowerCase().includes('beige') ? '#f5f5dc' :
+                                color.toLowerCase().includes('brown') ? '#8b4513' :
+                                color.toLowerCase().includes('tan') ? '#d2b48c' :
+                                color.toLowerCase().includes('gold') ? '#ffd700' :
+                                color.toLowerCase().includes('champagne') ? '#f7e7ce' :
+                                color.toLowerCase().includes('oatmeal') ? '#f5f5dc' :
+                                color.toLowerCase().includes('charcoal') ? '#36454f' :
+                                color.toLowerCase().includes('camel') ? '#c19a6b' :
+                                color.toLowerCase().includes('ivory') ? '#fffff0' :
+                                color.toLowerCase().includes('midnight') ? '#191970' :
+                                color.toLowerCase().includes('deep') ? '#0a1128' :
+                                '#9ca3af'
                             }}
                             title={color}
                           />
-                        ))}
-                        {item.colors.length > 3 && (
-                          <span className="text-xs text-muted-foreground">+{item.colors.length - 3}</span>
+                        )) || []}
+                        {(item.colors?.length || 0) > 3 && (
+                          <span className="text-xs text-muted-foreground">+{(item.colors?.length || 0) - 3}</span>
                         )}
                       </div>
                     </div>
@@ -200,7 +225,7 @@ export default function WishlistPage() {
                       <Button
                         className="w-full bg-primary hover:bg-primary/90 text-xs md:text-sm py-2"
                         disabled={!item.inStock}
-                        onClick={() => addToCart(item.id)}
+                        onClick={() => addToCart(item)}
                       >
                         <ShoppingCart className="w-3 h-3 md:w-4 md:h-4 mr-2" />
                         {item.inStock ? 'Add to Cart' : 'Out of Stock'}

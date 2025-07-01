@@ -259,10 +259,10 @@ export default function ProductPage({ params }: ProductPageProps) {
             {product.salePrice ? (
               <>
                 <span className="text-2xl font-bold text-gray-900">
-                  {formatPrice(convertPrice(product.salePrice))}
+                  {formatPrice(product.salePrice)}
                 </span>
                 <span className="text-lg text-gray-500 line-through">
-                  {formatPrice(convertPrice(product.price))}
+                  {formatPrice(product.price)}
                 </span>
                 <Badge variant="destructive" className="ml-2">
                   {Math.round(((product.price - product.salePrice) / product.price) * 100)}% OFF
@@ -270,7 +270,7 @@ export default function ProductPage({ params }: ProductPageProps) {
               </>
             ) : (
               <span className="text-2xl font-bold text-gray-900">
-                {formatPrice(convertPrice(product.price))}
+                {formatPrice(product.price)}
               </span>
             )}
           </div>
